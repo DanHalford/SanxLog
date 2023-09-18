@@ -23,7 +23,7 @@ Features include:
 ### Log file format
 The log files are written in a human-readable (or at least, human parseable) format:
 
-`\[Timestamp\] \[ProcessID\] \[Log level - CRIT|ERROR|WARN|INFO|DEBUG\] Message`
+`[Timestamp] [ProcessID] [Log level - CRIT|ERROR|WARN|INFO|DEBUG] Message`
 
 ## InfluxDB logging
 Features include:
@@ -38,6 +38,6 @@ Features include:
 
 Log messages are written in the following format:
 
-`\[Log level - CRIT|ERROR|WARN|INFO|DEBUG\] \[ProcessID\] Message`
+`[Log level - CRIT|ERROR|WARN|INFO|DEBUG] [ProcessID] Message`
 
 
