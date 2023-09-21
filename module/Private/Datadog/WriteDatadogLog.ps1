@@ -14,7 +14,7 @@ function Write-DatadogLog() {
         "Accept" = "application/json"
     }
     $tags = $global:datadogtags
-    $tags += "level:$($Level.ToUpper))"
+    $tags += "level:$($Level.ToUpper()))"
     $hostname = Get-Hostname
     $processID = $PID.ToString()
     $body = @{
@@ -24,5 +24,24 @@ function Write-DatadogLog() {
         ddtags = "$($tags -join " ")"
         hostname = "$hostname"
     }
-    Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body ($body | ConvertTo-Json)
+
+    $scriptblock = {
+        param(
+            [string]$url,
+            [hashtable]$headers,
+            [hashtable]$body            
+        )
+        Try {
+            $response = Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body ($body | ConvertTo-Json)
+        }
+        Catch {
+            Write-Host "Failed to write to Datadog: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Host "URL: $url"
+            Write-Host "Headers: $headers"
+            Write-Host "Body: $($body | ConvertTo-Json)"
+        }
+    }
+    $jobid = [guid]::NewGuid().ToString()
+    Start-Job -ScriptBlock $scriptblock -Name $jobid -ArgumentList @( $url, $headers, $body) | Out-Null
+
 }

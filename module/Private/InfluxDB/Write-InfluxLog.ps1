@@ -16,5 +16,23 @@ function Write-InfluxLog() {
     $timestamp = Get-InfluxTimestamp
     $hostname = Get-Hostname
     $body = "$global:influxsource,level=$($Level.ToLower()),pid=$PID,$host=$hostname message=`"$($Message -replace('"', '\"'))`" $timestamp"
-    Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body $body
+
+    $scriptblock = {
+        param(
+            [string]$url,
+            [hashtable]$headers,
+            [string]$body
+        )
+        Try {
+            $response = Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body $body
+        }
+        Catch {
+            Write-Host "Failed to write to InfluxDB: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Host "URL: $url"
+            Write-Host "Body: $($body | ConvertTo-Json)"
+        }
+    }
+
+    $jobid = [guid]::NewGuid().ToString()
+    Start-Job -ScriptBlock $scriptblock -Name $jobid -ArgumentList @( $url, $headers, $body) | Out-Null
 }

@@ -1,3 +1,3 @@
 function Get-Hostname() {
-    return [System.Net.Dns]::GetHostName()
+    return [System.Net.Dns]::GetHostName().ToString()
 }
