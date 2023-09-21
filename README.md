@@ -43,7 +43,7 @@ Log messages are written in the following format:
 ## Loggly logging
 Features include:
 * Log messages written as JSON to take advantage of Loggly's excellent filtering and searching functions
-* Each message tagged with *hostname*, *log level*, *process ID* and a configurable *source* and *service*
+* Each message tagged with **Hostname**, **LogLevel**, **ProcessID** and a configurable **Source** and **Service**
 * Tags are also supported.
 
 
