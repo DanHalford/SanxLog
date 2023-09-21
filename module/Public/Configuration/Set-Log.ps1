@@ -7,7 +7,7 @@ Specifies the type of logging to use, and the parameters for that logging type.
 This function is used to specify the type of logging to use, and the parameters for that logging type. It must be called before any logging functions are used.
 
 .PARAMETER LogType
-The type of logging to use. Must be one of 'File', 'InfluxDB', or 'Datadog'.
+The type of logging to use. Must be one of 'File', 'InfluxDB', 'Datadog' or 'Loggly'.
 
 .PARAMETER Path
 Applicable only when LogType is 'File'.
@@ -24,11 +24,12 @@ If this switch is specified, timestamps in the log file will be written in UTC. 
 .PARAMETER ServerURL
 Applicable only when LogType is 'InfluxDB' or 'Datadog'.
 If LogType is Influx, specify the full URL to the InfluxDB server, including port number.
-For DataDog, specify the Datadog site URL.
+For DataDog, specify the Datadog site URL. Do not include the https:// prefix.
 
 .PARAMETER Token
-Applicable only when LogType is 'InfluxDB'.
-The API token for InfluxDB authentication. The token will require, at a minimum, write access to the specified bucket.
+Applicable only when LogType is 'InfluxDB' or 'Loggly'.
+For InfluxDB, the API token for InfluxDB authentication. The token will require, at a minimum, write access to the specified bucket.
+For Loggly, use the customer token for Loggly authentication. Do not use an API token.
 
 .PARAMETER Bucket
 Applicable only when LogType is 'InfluxDB'.
@@ -39,19 +40,19 @@ Applicable only when LogType is 'InfluxDB'.
 The name or ID of the InfluxDB organisation. The organisation must already exist.
 
 .PARAMETER Source
-Applicable only when LogType is 'InfluxDB' or 'Datadog'.
-The name of the source for the logs. This will be used as a tag in Datadog and InfluxDB. Defaults to 'SanxLog'.
+Applicable only when LogType is 'InfluxDB', 'Datadog' or 'Loggly'
+The name of the source for the logs. This will be used as a tag in Loggly, Datadog and InfluxDB. Defaults to 'SanxLog'.
 
 .PARAMETER APIKey
 Applicable only when LogType is 'Datadog'.
 The API key for Datadog authentication.
 
 .PARAMETER Service
-Applicable only when LogType is 'Datadog'.
+Applicable only when LogType is 'Datadog' or 'Loggly'.
 The service name to tag log entries with.
 
 .PARAMETER Tags
-Applicable only when LogType is 'Datadog'.
+Applicable only when LogType is 'Datadog' or 'Loggly'.
 Metadata tags to add to log entries.
 
 .PARAMETER LogLevel
