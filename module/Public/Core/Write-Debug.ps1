@@ -14,6 +14,9 @@ function Write-Debug() {
         "Datadog" {
             Write-DatadogLog -Level "DEBUG" -Message $Message
         }
+        "Loggly" {
+            Write-LogglyLog -Level "DEBUG" -Message $Message
+        }
     }
     Write-ScreenLog -Level "DEBUG" -Message $Message
 }

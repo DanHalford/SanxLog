@@ -66,7 +66,7 @@ Set-Log -LogType File -Path "C:\Logs\SanxLog.log" -MaxSize 10000000 -LogLevel IN
 function Set-Log() {
     param (
         [Parameter(Mandatory=$true, Position=0)]
-        [ValidateSet("File", "InfluxDB", "Datadog", IgnoreCase=$true, ErrorMessage="Invalid log type - must be one of 'File', 'InfluxDB', or 'Datadog'")]
+        [ValidateSet("File", "InfluxDB", "Datadog", "Loggly", IgnoreCase=$true, ErrorMessage="Invalid log type - must be one of 'File', 'InfluxDB', or 'Datadog'")]
         [string]$LogType,
 
         [Parameter(ParameterSetName="File", Mandatory=$true)]
@@ -83,6 +83,7 @@ function Set-Log() {
         [string]$ServerURL,
 
         [Parameter(ParameterSetName="InfluxDB", Mandatory=$true, HelpMessage="API token for InfluxDB authentication. The token will require, at a minimum, write access to the specified bucket.")]
+        [Parameter(ParameterSetName="Loggly", Mandatory=$true, HelpMessage="Customer token for Loggly authentication. Do no use an API token.")]
         [string]$Token,
 
         [Parameter(ParameterSetName="InfluxDB", Mandatory=$true, HelpMessage="The name or ID of the bucket to write logs to. The bucket must already exist.")]
@@ -93,15 +94,18 @@ function Set-Log() {
 
         [Parameter(ParameterSetName="InfluxDB", HelpMessage="The name of the source for the logs. This will be used as a tag in InfluxDB. Defaults to 'SanxLog'")]
         [Parameter(ParameterSetName="Datadog", HelpMessage="The source name to tag log entries with. Defaults to 'SanxLog'")]
+        [Parameter(ParameterSetName="Loggly", HelpMessage="The source name to tag log entries with. Defaults to 'SanxLog'")]
         [string]$Source,
 
         [Parameter(ParameterSetName="Datadog", Mandatory=$true, HelpMessage="API key for Datadog authentication.")]
         [string]$APIKey,
 
         [Parameter(ParameterSetName="Datadog", Mandatory=$true, HelpMessage="The service name to tag log entries with.")]
+        [Parameter(ParameterSetName="Loggly", Mandatory=$true, HelpMessage="The service name to tag log entries with.")]
         [string]$Service,
 
         [Parameter(ParameterSetName="Datadog", HelpMessage="Metadata tags to add to log entries.")]
+        [Parameter(ParameterSetName="Loggly", HelpMessage="Metadata tags to add to log entries.")]
         [string[]]$Tags,
 
         [Parameter(Mandatory=$true)]
@@ -127,7 +131,7 @@ function Set-Log() {
             if ($MaxSize) {
                 $global:logmaxsize = $MaxSize
             }
-            New-LogFile -Path $global:logpath
+            New-FileLog -Path $global:logpath
         }
         "InfluxDB" {
             $global:logtype = "InfluxDB"
@@ -163,6 +167,24 @@ function Set-Log() {
             }
             if ($Tags) {
                 $global:datadogtags = $Tags
+            }
+        }
+        "Loggly" {
+            $global:logtype = "Loggly"
+            if ($ServerURL) {
+                $global:logglyurl = $ServerURL
+            }
+            if ($Token) {
+                $global:logglytoken = $Token
+            }
+            if ($Service) {
+                $global:logglyservice = $Service
+            }
+            if ($Source) {
+                $global:logglysource = $Source
+            }
+            if ($Tags) {
+                $global:logglytags = $Tags
             }
         }
     }

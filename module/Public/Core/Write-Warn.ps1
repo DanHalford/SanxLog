@@ -13,6 +13,9 @@ function Write-Warn() {
         "Datadog" {
             Write-DatadogLog -Level "WARN" -Message $Message
         }
+        "Loggly" {
+            Write-LogglyLog -Level "WARN" -Message $Message
+        }
     }
     Write-ScreenLog -Level "WARN" -Message $Message
 }

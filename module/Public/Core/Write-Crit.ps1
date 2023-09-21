@@ -13,6 +13,9 @@ function Write-Crit() {
         "Datadog" {
             Write-DatadogLog -Level "CRIT" -Message $Message
         }
+        "Loggly" {
+            Write-LogglyLog -Level "CRIT" -Message $Message
+        }
     }
     Write-ScreenLog -Level "CRIT" -Message $Message
 }

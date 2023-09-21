@@ -6,7 +6,7 @@
     Author = 'Dan Halford'
     # CompanyName = ''
     # Copyright = ''
-    Description = 'Provides logging functions to screen, file, InfluxDB, Syslog and a few more...'
+    Description = 'Provides logging functions to screen, file and log aggregation services'
     PowerShellVersion = '7.2'
     # PowerShellHostName = ''
     # PowerShellHostVersion = ''

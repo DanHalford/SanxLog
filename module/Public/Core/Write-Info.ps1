@@ -13,6 +13,9 @@ function Write-Info() {
         "Datadog" {
             Write-DatadogLog -Level "INFO" -Message $Message
         }
+        "Loggly" {
+            Write-LogglyLog -Level "INFO" -Message $Message
+        }
     }
     Write-ScreenLog -Level "INFO" -Message $Message
 }

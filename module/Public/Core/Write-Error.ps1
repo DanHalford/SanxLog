@@ -13,6 +13,9 @@ function Write-Error() {
         "Datadog" {
             Write-DatadogLog -Level "ERROR" -Message $Message
         }
+        "Loggly" {
+            Write-LogglyLog -Level "ERROR" -Message $Message
+        }
     }
-    Write-ScreenLog -Level "CRIT" -Message $Message
+    Write-ScreenLog -Level "ERROR" -Message $Message
 }
