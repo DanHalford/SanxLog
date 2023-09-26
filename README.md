@@ -2,11 +2,11 @@
 SanxLog is a PowerShell Core module that enables simple logging to file and to a growing number of time-series databases and log aggregation services; currently InfluxDB, Datadog, Sumo Logic and Loggly. For each option, simultaneous logging to console is also supported.
 
 Once the module has been imported, use the `Set-Log` cmdlet to specify the logging target. At present, you can only log to one location at a time. Each log target also supports, if required, logging to the Console. Once the log type has been specified, to write log entries, simply call:
-`Write-Crit`
-`Write-Error`
-`Write-Warn`
-`Write-Info`
-`Write-Debug`
+`Write-LogCritical`
+`Write-LogError`
+`Write-LogWarn`
+`Write-LogInfo`
+`Write-LogDebug`
 
 ### Logging settings
 All logging parameters are set using the `Set-Log` cmdlet. Specific options to note include:
