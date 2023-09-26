@@ -1,3 +1,16 @@
+<#
+.SYNOPSIS
+Writes an error message to the log
+
+.DESCRIPTION
+Writes an error message to the log
+
+.PARAMETER Message
+The message to write to the log
+
+.EXAMPLE
+Write-Error -Message "This is an error message"
+#>
 function Write-Error() {
     Param(
         [Parameter(Mandatory=$true)]

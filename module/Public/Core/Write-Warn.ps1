@@ -1,3 +1,16 @@
+<#
+.SYNOPSIS
+Writes a warning message to the log
+
+.DESCRIPTION
+Writes a warning message to the log
+
+.PARAMETER Message
+The message to write to the log
+
+.EXAMPLE
+Write-Warn -Message "This is a warning message"
+#>
 function Write-Warn() {
     Param(
         [Parameter(Mandatory=$true)]

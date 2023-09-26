@@ -1,3 +1,16 @@
+<#
+.SYNOPSIS
+Writes a critical message to the log
+
+.DESCRIPTION
+Writes a critical message to the log
+
+.PARAMETER Message
+The message to write to the log
+
+.EXAMPLE
+Write-Crit -Message "This is a critical message"
+#>
 function Write-Crit() {
     Param(
         [Parameter(Mandatory=$true)]

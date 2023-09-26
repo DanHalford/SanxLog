@@ -1,3 +1,16 @@
+<#
+.SYNOPSIS
+Writes a debug message to the log
+
+.DESCRIPTION
+Writes a debug message to the log
+
+.PARAMETER Message
+The message to write to the log
+
+.EXAMPLE
+Write-Debug -Message "This is a debug message"
+#>
 function Write-Debug() {
     Param(
         [Parameter(Mandatory=$true)]

@@ -1,3 +1,16 @@
+<#
+.SYNOPSIS
+Writes an informational message to the log
+
+.DESCRIPTION
+Writes an informational message to the log
+
+.PARAMETER Message
+The message to write to the log
+
+.EXAMPLE
+Write-Info -Message "This is an informational message"
+#>
 function Write-Info() {
     Param(
         [Parameter(Mandatory=$true)]
