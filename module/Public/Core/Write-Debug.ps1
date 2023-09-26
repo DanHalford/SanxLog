@@ -17,6 +17,9 @@ function Write-Debug() {
         "Loggly" {
             Write-LogglyLog -Level "DEBUG" -Message $Message
         }
+        "SumoLogic" {
+            Write-SumoLogicLog -Level "DEBUG" -Message $Message
+        }
     }
     Write-ScreenLog -Level "DEBUG" -Message $Message
 }

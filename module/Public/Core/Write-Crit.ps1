@@ -16,6 +16,9 @@ function Write-Crit() {
         "Loggly" {
             Write-LogglyLog -Level "CRIT" -Message $Message
         }
+        "SumoLogic" {
+            Write-SumoLogicLog -Level "CRIT" -Message $Message
+        }
     }
     Write-ScreenLog -Level "CRIT" -Message $Message
 }

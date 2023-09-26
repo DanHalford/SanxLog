@@ -16,6 +16,9 @@ function Write-Info() {
         "Loggly" {
             Write-LogglyLog -Level "INFO" -Message $Message
         }
+        "SumoLogic" {
+            Write-SumoLogicLog -Level "INFO" -Message $Message
+        }
     }
     Write-ScreenLog -Level "INFO" -Message $Message
 }

@@ -67,7 +67,7 @@ Set-Log -LogType File -Path "C:\Logs\SanxLog.log" -MaxSize 10000000 -LogLevel IN
 function Set-Log() {
     param (
         [Parameter(Mandatory=$true, Position=0)]
-        [ValidateSet("File", "InfluxDB", "Datadog", "Loggly", IgnoreCase=$true, ErrorMessage="Invalid log type - must be one of 'File', 'InfluxDB', or 'Datadog'")]
+        [ValidateSet("File", "InfluxDB", "Datadog", "Loggly", "SumoLogic", IgnoreCase=$true, ErrorMessage="Invalid log type - must be one of 'File', 'InfluxDB', or 'Datadog'")]
         [string]$LogType,
 
         [Parameter(ParameterSetName="File", Mandatory=$true)]
@@ -81,6 +81,7 @@ function Set-Log() {
 
         [Parameter(ParameterSetName="InfluxDB", Mandatory=$true, HelpMessage="The full URL to the InfluxDB server, including port number.")]
         [Parameter(ParameterSetName="Datadog", Mandatory=$true, HelpMessage="The Datadog site URL")]
+        [Parameter(ParameterSetName="SumoLogic", Mandatory=$true, HelpMessage="The SumoLogic HTTP collector URL")]
         [string]$ServerURL,
 
         [Parameter(ParameterSetName="InfluxDB", Mandatory=$true, HelpMessage="API token for InfluxDB authentication. The token will require, at a minimum, write access to the specified bucket.")]
@@ -96,6 +97,7 @@ function Set-Log() {
         [Parameter(ParameterSetName="InfluxDB", HelpMessage="The name of the source for the logs. This will be used as a tag in InfluxDB. Defaults to 'SanxLog'")]
         [Parameter(ParameterSetName="Datadog", HelpMessage="The source name to tag log entries with. Defaults to 'SanxLog'")]
         [Parameter(ParameterSetName="Loggly", HelpMessage="The source name to tag log entries with. Defaults to 'SanxLog'")]
+        [Parameter(ParameterSetName="SumoLogic", HelpMessage="The source name to tag log entries with. Defaults to 'SanxLog'")]
         [string]$Source,
 
         [Parameter(ParameterSetName="Datadog", Mandatory=$true, HelpMessage="API key for Datadog authentication.")]
@@ -103,11 +105,15 @@ function Set-Log() {
 
         [Parameter(ParameterSetName="Datadog", Mandatory=$true, HelpMessage="The service name to tag log entries with.")]
         [Parameter(ParameterSetName="Loggly", Mandatory=$true, HelpMessage="The service name to tag log entries with.")]
+        [Parameter(ParameterSetName="SumoLogic", Mandatory=$true, HelpMessage="The service name to tag log entries with. This is used to override the Source Category configured on the Sumo Logic HTTP collector.")]
         [string]$Service,
 
         [Parameter(ParameterSetName="Datadog", HelpMessage="Metadata tags to add to log entries.")]
         [Parameter(ParameterSetName="Loggly", HelpMessage="Metadata tags to add to log entries.")]
         [string[]]$Tags,
+
+        [Parameter(ParameterSetName="SumoLogic", HelpMessage="Metadata fields to tag log entries with.")]
+        [hashtable]$Metadata,
 
         [Parameter(Mandatory=$true)]
         [ValidateSet("DEBUG", "INFO", "WARN", "ERROR", "CRIT")]
@@ -124,8 +130,8 @@ function Set-Log() {
         Set-LogLevel -LogLevel $LogLevel
     }
     
-    switch ($LogType) {
-        "File" {
+    switch ($LogType.ToLower()) {
+        "file" {
             if ($Path) {
                 $global:logpath = $Path
             }
@@ -134,7 +140,7 @@ function Set-Log() {
             }
             New-FileLog -Path $global:logpath
         }
-        "InfluxDB" {
+        "influxdb" {
             $global:logtype = "InfluxDB"
             if ($ServerURL) {
                 $global:influxurl = $ServerURL
@@ -152,7 +158,7 @@ function Set-Log() {
                 $global:influxsource = $Source
             }
         }
-        "Datadog" {
+        "datadog" {
             $global:logtype = "Datadog"
             if ($ServerURL) {
                 $global:datadogsite = $ServerURL
@@ -170,7 +176,7 @@ function Set-Log() {
                 $global:datadogtags = $Tags
             }
         }
-        "Loggly" {
+        "loggly" {
             $global:logtype = "Loggly"
             if ($ServerURL) {
                 $global:logglyurl = $ServerURL
@@ -186,6 +192,21 @@ function Set-Log() {
             }
             if ($Tags) {
                 $global:logglytags = $Tags
+            }
+        }
+        "sumologic" {
+            $global:logtype = "SumoLogic"
+            if ($ServerURL) {
+                $global:sumocollectorurl = $ServerURL
+            }
+            if ($Service) {
+                $global:sumocategory = $Service
+            }
+            if ($Source) {
+                $global:sumosource = $Source
+            }
+            if ($Metadata) {
+                $global:sumometadata = $Metadata
             }
         }
     }

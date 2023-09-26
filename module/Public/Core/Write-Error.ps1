@@ -16,6 +16,9 @@ function Write-Error() {
         "Loggly" {
             Write-LogglyLog -Level "ERROR" -Message $Message
         }
+        "SumoLogic" {
+            Write-SumoLogicLog -Level "ERROR" -Message $Message
+        }
     }
     Write-ScreenLog -Level "ERROR" -Message $Message
 }

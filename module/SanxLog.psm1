@@ -18,6 +18,10 @@ $global:logglytoken = ""
 $global:logglytags = @()
 $global:logglysource = "SanxLog"
 $global:logglyservice = ""
+$global:sumocollectorurl = ""
+$global:sumosource = "SanxLog"
+$global:sumocategory = ""
+$global:sumometadata = @{}
 
 $Public  = @(Get-ChildItem -Path "$PSScriptRoot\Public\" -include '*.ps1' -recurse -ErrorAction SilentlyContinue)
 $Private = @(Get-ChildItem -Path "$PSScriptRoot\Private\" -include '*.ps1' -recurse -ErrorAction SilentlyContinue)

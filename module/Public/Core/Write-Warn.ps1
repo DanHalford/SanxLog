@@ -16,6 +16,9 @@ function Write-Warn() {
         "Loggly" {
             Write-LogglyLog -Level "WARN" -Message $Message
         }
+        "SumoLogic" {
+            Write-SumoLogicLog -Level "WARN" -Message $Message
+        }
     }
     Write-ScreenLog -Level "WARN" -Message $Message
 }

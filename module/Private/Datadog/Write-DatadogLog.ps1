@@ -43,5 +43,4 @@ function Write-DatadogLog() {
     }
     $jobid = [guid]::NewGuid().ToString()
     Start-Job -ScriptBlock $scriptblock -Name $jobid -ArgumentList @( $url, $headers, $body) | Out-Null
-
 }
