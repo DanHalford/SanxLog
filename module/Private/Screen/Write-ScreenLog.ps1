@@ -10,27 +10,27 @@ function Write-ScreenLog() {
     $logline = Get-LogLine -Level $Level -Message $Message
     switch ($Level) {
         "DEBUG" {
-            if ($global:dlevel -eq "DEBUG") {
+            if ($LogConfig.DLevel -eq "DEBUG") {
                 Write-Host $logline -ForegroundColor Gray
             }
         }
         "INFO" {
-            if ($global:dlevel -eq "DEBUG" -or $global:dlevel -eq "INFO") {
+            if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO") {
                 Write-Host $logline
             }
         }
         "WARN" {
-            if ($global:dlevel -eq "DEBUG" -or $global:dlevel -eq "INFO" -or $global:dlevel -eq "WARN") {
+            if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO" -or $LogConfig.DLevel -eq "WARN") {
                 Write-Host $logline -ForegroundColor Yellow
             }
         }
         "ERROR" {
-            if ($global:dlevel -eq "DEBUG" -or $global:dlevel -eq "INFO" -or $global:dlevel -eq "WARN" -or $global:dlevel -eq "ERROR") {
+            if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO" -or $LogConfig.DLevel -eq "WARN" -or $LogConfig.DLevel -eq "ERROR") {
                 Write-Host $logline -ForegroundColor Red
             }
         }
         "CRIT" {
-            if ($global:dlevel -eq "DEBUG" -or $global:dlevel -eq "INFO" -or $global:dlevel -eq "WARN" -or $global:dlevel -eq "ERROR" -or $global:dlevel -eq "CRIT") {
+            if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO" -or $LogConfig.DLevel -eq "WARN" -or $LogConfig.DLevel -eq "ERROR" -or $LogConfig.DLevel -eq "CRIT") {
                 Write-Host $logline -ForegroundColor Red -BackgroundColor White
             }
         }

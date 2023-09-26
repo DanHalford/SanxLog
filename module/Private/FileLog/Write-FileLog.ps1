@@ -10,6 +10,6 @@ function Write-FileLog() {
     )
 
     $logline = Get-LogLine -Level $Level -Message $Message
-    $logline | Out-File -FilePath $global:logpath -Append -Encoding "UTF8"
+    $logline | Out-File -FilePath $FileLogConfig.Path -Append -Encoding "UTF8"
     Test-FileLogSize
 }

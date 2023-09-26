@@ -3,15 +3,15 @@ function Set-LogLevel () {
         [Parameter(Mandatory=$true)]
         [ValidateSet("DEBUG", "INFO", "WARN", "ERROR", "CRIT")]
         [string]$LogLevel,
-        
+
         [ValidateSet("DEBUG", "INFO", "WARN", "ERROR", "CRIT", "NONE")]
         [string]$DisplayLevel
     )
-    $global:llevel = $LogLevel
+    $LogConfig.LLevel = $LogLevel
     if ($DisplayLevel) {
-        $global:dlevel = $DisplayLevel
+        $LogConfig.DLevel = $DisplayLevel
     }
     else {
-        $global:dlevel = $LogLevel
+        $LogConfig.DLevel  = $LogLevel
     }
 }

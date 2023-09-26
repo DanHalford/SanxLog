@@ -7,25 +7,24 @@ function Write-LogglyLog() {
         [Parameter(Mandatory=$true)]
         [string]$Message
     )
-    
-    $tags = $global:logglytags
+
+    $tags = $LogglyLogConfig.Tags
     $tags += "level.$($Level.ToUpper())"
     $tagstring = $tags | ForEach-Object { $_.Trim().Replace(" ", "_") } | Join-String -Separator ","
 
-    $url = "https://logs-01.loggly.com/inputs/$global:logglytoken/tag/$tagstring/"
+    $url = "https://logs-01.loggly.com/inputs/$($LogglyLogConfig.Token)/tag/$tagstring/"
     $headers = @{
         "Content-Type" = "application/json";
         "Accept" = "application/json"
     }
     $hostname = Get-Hostname
-    $processID = $PID.ToString()
     $body = @{
-        message = "[$($Level.ToLower())] [$processID] $($Message -replace('"', '\"'))"
+        message = "[$($Level.ToLower())] [$($PID.ToString())] $($Message -replace('"', '\"'))"
         level = "$($Level.ToUpper())"
-        source = "$global:logglysource"
-        service = "$global:logglyservice"
-        processID = "$processID"
-        hostname = "$hostname"
+        source = $LogglyLogConfig.Source
+        service = $LogglyLogConfig.Service
+        processID = $PID.ToString()
+        hostname = $hostname
     }
 
     $scriptblock = {
@@ -35,13 +34,12 @@ function Write-LogglyLog() {
             [hashtable]$body
         )
         Try {
-            $response = Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body ($body | ConvertTo-Json)
-            Write-Host "Loggly response: $($response | ConvertTo-Json)"
+            Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body ($body | ConvertTo-Json) | Out-Null
         }
         Catch {
-            Write-Host "Failed to write to Loggly: $($_.Exception.Message)" -ForegroundColor Red
-            Write-Host "URL: $url"
-            Write-Host "Body: $($body | ConvertTo-Json)"
+            Write-Error "Failed to write to Loggly: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Information "URL: $url"
+            Write-Information "Body: $($body | ConvertTo-Json)"
         }
     }
 

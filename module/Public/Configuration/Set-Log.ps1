@@ -122,7 +122,7 @@ function Set-Log() {
         [Parameter(Mandatory=$true, HelpMessage="The minimum log level to write to the log. Must be one of 'DEBUG', 'INFO', 'WARN', 'ERROR', or 'CRIT'")]
         [ValidateSet("DEBUG", "INFO", "WARN", "ERROR", "CRIT")]
         [string]$LogLevel,
-        
+
         [Parameter(HelpMessage="The minimum log level to display on the console. Must be one of 'DEBUG', 'INFO', 'WARN', 'ERROR', 'CRIT', or 'NONE'")]
         [ValidateSet("DEBUG", "INFO", "WARN", "ERROR", "CRIT", "NONE")]
         [string]$DisplayLevel
@@ -134,93 +134,91 @@ function Set-Log() {
     else {
         Set-LogLevel -LogLevel $LogLevel
     }
-    
+
     switch ($LogType.ToLower()) {
         "file" {
             if ($Path) {
-                $global:logpath = $Path
+                $FileLogConfig.Path = $Path
             }
             if ($MaxSize) {
-                $global:logmaxsize = $MaxSize
+                $FileLogConfig.MaxSize = $MaxSize
             }
-            New-FileLog -Path $global:logpath
+            $LogConfig.LogType = "File"
+            Open-FileLog -Path $FileLogConfig.Path
         }
         "influxdb" {
-            $global:logtype = "InfluxDB"
+            $LogConfig.LogType = "InfluxDB"
             if ($ServerURL) {
-                $global:influxurl = $ServerURL
+                $InfluxLogConfig.URL = $ServerURL
             }
             if ($Token) {
-                $global:influxtoken = $Token
+                $InfluxLogConfig.Token = $Token
             }
             if ($Bucket) {
-                $global:influxbucket = $Bucket
+                $InfluxLogConfig.Bucket = $Bucket
             }
             if ($OrgName) {
-                $global:influxorg = $OrgName
+                $InfluxLogConfig.Org = $OrgName
             }
             if ($Source) {
-                $global:influxsource = $Source
+                $InfluxLogConfig.Source = $Source
             }
         }
         "datadog" {
-            $global:logtype = "Datadog"
+            $LogConfig.LogType = "Datadog"
             if ($ServerURL) {
-                $global:datadogsite = $ServerURL
+                $DatadogLogConfig.URL = $ServerURL
             }
             if ($APIKey) {
-                $global:datadogapikey = $APIKey
+                $DatadogLogConfig.APIKey = $APIKey
             }
             if ($Service) {
-                $global:datadogservice = $Service
+                $DatadogLogConfig.Service = $Service
             }
             if ($Source) {
-                $global:datadogsource = $Source
+                $DatadogLogConfig.Source = $Source
             }
             if ($Tags) {
-                $global:datadogtags = $Tags
+                $DatadogLogConfig.Tags = $Tags
             }
         }
         "loggly" {
-            $global:logtype = "Loggly"
-            if ($ServerURL) {
-                $global:logglyurl = $ServerURL
-            }
+            $LogConfig.LogType = "Loggly"
             if ($Token) {
-                $global:logglytoken = $Token
+                $LogglyLogConfig.Token = $Token
             }
             if ($Service) {
-                $global:logglyservice = $Service
+                $LogglyLogConfig.Service = $Service
             }
             if ($Source) {
-                $global:logglysource = $Source
+                $LogglyLogConfig.Source = $Source
             }
             if ($Tags) {
-                $global:logglytags = $Tags
+                $LogglyLogConfig.Tags = $Tags
             }
         }
         "sumologic" {
-            $global:logtype = "SumoLogic"
+            $LogConfig.LogType = "SumoLogic"
             if ($ServerURL) {
-                $global:sumocollectorurl = $ServerURL
+                $SumoLogConfig.CollectorURL = $ServerURL
             }
             if ($Service) {
-                $global:sumocategory = $Service
+                $SumoLogConfig.Category = $Service
             }
             if ($Source) {
-                $global:sumosource = $Source
+                $SumoLogConfig.Source = $Source
             }
             if ($Metadata) {
-                $global:sumometadata = $Metadata
+                $SumoLogConfig.Metadata = $Metadata
             }
         }
     }
 
     if ($UniversalTime) {
-        $global:useutc = $true
+        $LogConfig.UseUTC = $true
     }
     else {
-        $global:useutc = $false
+        $LogConfig.UseUTC = $false
     }
 
 }

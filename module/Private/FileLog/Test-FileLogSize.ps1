@@ -1,8 +1,8 @@
 function Test-FileLogSize() {
-    $file = Get-Item -Path $global:logpath
-    if ($file.Length -gt $global:logmaxsize) {
-        $timestamp = $global:useutc ? (Get-Date).ToUniversalTime().ToString("yyyyMMddTHHmmss") : (Get-Date).ToString("yyyyMMddTHHmmss")
+    $file = Get-Item -Path $FileLogConfig.Path -ErrorAction SilentlyContinue
+    if ($file.Length -gt $FileLogConfig.MaxSize) {
+        $timestamp = $LogConfig.UseUTC ? (Get-Date).ToUniversalTime().ToString("yyyyMMddTHHmmss") : (Get-Date).ToString("yyyyMMddTHHmmss")
         $file | Rename-Item -NewName "$($file.Name).$timestamp.log"
-        New-FileLog -Path $global:logpath
+        Open-FileLog -Path $FileLogConfig.Path
     }
 }

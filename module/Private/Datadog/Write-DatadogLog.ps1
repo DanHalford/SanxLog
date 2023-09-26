@@ -7,38 +7,38 @@ function Write-DatadogLog() {
         [Parameter(Mandatory=$true)]
         [string]$Message
     )
-    $url = "https://http-intake.logs.$global:datadogsite/api/v2/logs"
+    $url = "https://http-intake.logs.$($DatadogLogConfig.URL)/api/v2/logs"
     $headers = @{
-        "DD-API-KEY" = "$global:datadogapikey";
+        "DD-API-KEY" = $DatadogLogConfig.APIKey
         "Content-Type" = "application/json";
         "Accept" = "application/json"
     }
-    $tags = $global:datadogtags
+    $tags = $DatadogLogConfig.Tags
     $tags += "level:$($Level.ToUpper()))"
     $hostname = Get-Hostname
     $processID = $PID.ToString()
     $body = @{
         message = "[$($Level.ToLower())] [$processID] $($Message -replace('"', '\"'))"
-        ddsource = "$global:datadogsource"
-        service = "$global:datadogservice"
+        ddsource = $DatadogLogConfig.Source
+        service = $DatadogLogConfig.Service
         ddtags = "$($tags -join " ")"
-        hostname = "$hostname"
+        hostname = $hostname
     }
 
     $scriptblock = {
         param(
             [string]$url,
             [hashtable]$headers,
-            [hashtable]$body            
+            [hashtable]$body
         )
         Try {
-            $response = Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body ($body | ConvertTo-Json)
+            Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body ($body | ConvertTo-Json) | Out-Null
         }
         Catch {
-            Write-Host "Failed to write to Datadog: $($_.Exception.Message)" -ForegroundColor Red
-            Write-Host "URL: $url"
-            Write-Host "Headers: $headers"
-            Write-Host "Body: $($body | ConvertTo-Json)"
+            Write-Error "Failed to write to Datadog: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Information "URL: $url"
+            Write-Information "Headers: $headers"
+            Write-Information "Body: $($body | ConvertTo-Json)"
         }
     }
     $jobid = [guid]::NewGuid().ToString()

@@ -7,33 +7,32 @@ function Write-SumoLogicLog() {
         [Parameter(Mandatory=$true)]
         [string]$Message
     )
-    $url = $global:sumocollectorurl
+    $url = $SumoLogConfig.CollectorURL
     $hostname = Get-Hostname
-    $processID = $PID.ToString()
     $body = @{
         timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffzzz")
         message = "[$($Level.ToLower())] $($Message -replace('"', '\"'))"
-        source = "$global:sumosource"
-        service = "$global:sumocategory"
+        source = $SumoLogConfig.Source
+        service = $SumoLogConfig.Category
         loglevel = "$($Level.ToUpper())"
-        processid = "$processID"
-        hostname = "$hostname"
+        processid = $PID.ToString()
+        hostname = $hostname
     }
     $body += $global:sumometadata
 
     $scriptblock = {
         param(
             [string]$url,
-            [hashtable]$body            
+            [hashtable]$body
         )
         Try {
-            $response = Invoke-RestMethod -Method POST -Uri $url -Body ($body | ConvertTo-Json)
+            Invoke-RestMethod -Method POST -Uri $url -Body ($body | ConvertTo-Json) | Out-Null
         }
         Catch {
-            Write-Host "Failed to write to Sumo Logic: $($_.Exception.Message)" -ForegroundColor Red
-            Write-Host "URL: $url"
-            Write-Host "Headers: $headers"
-            Write-Host "Body: $($body | ConvertTo-Json)"
+            Write-Error "Failed to write to Sumo Logic: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Information "URL: $url"
+            Write-Information "Headers: $headers"
+            Write-Information "Body: $($body | ConvertTo-Json)"
         }
     }
     $jobid = [guid]::NewGuid().ToString()

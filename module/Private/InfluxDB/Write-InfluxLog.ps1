@@ -7,15 +7,15 @@ function Write-InfluxLog() {
         [Parameter(Mandatory=$true)]
         [string]$Message
     )
-    $url = "$global:influxurl/api/v2/write?org=$global:influxorg&bucket=$global:influxbucket&precision=ms"
+    $url = "$($InfluxLogConfig.URL)/api/v2/write?org=$($InfluxLogConfig.Org)&bucket=$($InfluxLogConfig.Bucket)&precision=ms"
     $headers = @{
-        "Authorization" = "Token $global:influxtoken";
+        "Authorization" = "Token $($InfluxLogConfig.Token)";
         "Content-Type" = "text/plain; charset=utf-8";
         "Accept" = "application/json"
     }
     $timestamp = Get-InfluxTimestamp
     $hostname = Get-Hostname
-    $body = "$global:influxsource,level=$($Level.ToLower()),pid=$PID,$host=$hostname message=`"$($Message -replace('"', '\"'))`" $timestamp"
+    $body = "$($InfluxLogConfig.Source),level=$($Level.ToLower()),pid=$PID,$host=$hostname message=`"$($Message -replace('"', '\"'))`" $timestamp"
 
     $scriptblock = {
         param(
@@ -24,12 +24,12 @@ function Write-InfluxLog() {
             [string]$body
         )
         Try {
-            $response = Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body $body
+            Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body $body | Out-Null
         }
         Catch {
-            Write-Host "Failed to write to InfluxDB: $($_.Exception.Message)" -ForegroundColor Red
-            Write-Host "URL: $url"
-            Write-Host "Body: $($body | ConvertTo-Json)"
+            Write-Error "Failed to write to InfluxDB: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Information "URL: $url"
+            Write-Information "Body: $($body | ConvertTo-Json)"
         }
     }
 
