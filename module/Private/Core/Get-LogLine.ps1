@@ -1,3 +1,8 @@
+<#
+.SYNOPSIS
+    Returns a formatted single line containing the log message, timestamp, process ID, and log level.
+#>
+
 function Get-LogLine() {
     Param(
         [Parameter(Mandatory=$true)]

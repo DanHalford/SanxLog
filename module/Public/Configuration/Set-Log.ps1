@@ -150,30 +150,47 @@ function Set-Log() {
             $LogConfig.LogType = "InfluxDB"
             if ($ServerURL) {
                 $InfluxLogConfig.URL = $ServerURL
+            } else {
+                Write-Error -Message "InfluxDB logging is not configured correctly. You must specify the URL of the InfluxDB server."
             }
             if ($Token) {
                 $InfluxLogConfig.Token = $Token
+            } else {
+                Write-Error -Message "InfluxDB logging is not configured correctly. You must specify the API token for InfluxDB authentication."
             }
             if ($Bucket) {
                 $InfluxLogConfig.Bucket = $Bucket
+            } else {
+                Write-Error -Message "InfluxDB logging is not configured correctly. You must specify the name or ID of the bucket to write logs to."
             }
             if ($OrgName) {
                 $InfluxLogConfig.Org = $OrgName
+            } else {
+                Write-Error -Message "InfluxDB logging is not configured correctly. You must specify the name or ID of the InfluxDB organisation."
             }
             if ($Source) {
                 $InfluxLogConfig.Source = $Source
+            }
+            if ($InfluxLogConfig.URL -ne "" -and $InfluxLogConfig.Token -ne "" -and $InfluxLogConfig.Bucket -ne "" -and $InfluxLogConfig.Org -ne "") {
+                $LogConfig.ValidConfig = $true
             }
         }
         "datadog" {
             $LogConfig.LogType = "Datadog"
             if ($ServerURL) {
                 $DatadogLogConfig.URL = $ServerURL
+            } else {
+                Write-Error -Message "Datadog logging is not configured correctly. You must specify the Datadog site URL."
             }
             if ($APIKey) {
                 $DatadogLogConfig.APIKey = $APIKey
+            } else {
+                Write-Error -Message "Datadog logging is not configured correctly. You must specify the API key for Datadog authentication."
             }
             if ($Service) {
                 $DatadogLogConfig.Service = $Service
+            } else {
+                Write-Error -Message "Datadog logging is not configured correctly. You must specify the service name to tag log entries with."
             }
             if ($Source) {
                 $DatadogLogConfig.Source = $Source
@@ -181,14 +198,21 @@ function Set-Log() {
             if ($Tags) {
                 $DatadogLogConfig.Tags = $Tags
             }
+            if ($DatadogLogConfig.URL -ne "" -and $DatadogLogConfig.APIKey -ne "") {
+                $LogConfig.ValidConfig = $true
+            }
         }
         "loggly" {
             $LogConfig.LogType = "Loggly"
             if ($Token) {
                 $LogglyLogConfig.Token = $Token
+            } else {
+                Write-Error -Message "Loggly logging is not configured correctly. You must specify the customer token for Loggly authentication."
             }
             if ($Service) {
                 $LogglyLogConfig.Service = $Service
+            } else {
+                Write-Error -Message "Loggly logging is not configured correctly. You must specify the service name to tag log entries with."
             }
             if ($Source) {
                 $LogglyLogConfig.Source = $Source
@@ -196,20 +220,30 @@ function Set-Log() {
             if ($Tags) {
                 $LogglyLogConfig.Tags = $Tags
             }
+            if ($LogglyLogConfig.Token -ne "" -and $LogglyLogConfig.Service -ne "") {
+                $LogConfig.ValidConfig = $true
+            }
         }
         "sumologic" {
             $LogConfig.LogType = "SumoLogic"
             if ($ServerURL) {
                 $SumoLogConfig.CollectorURL = $ServerURL
+            } else {
+                Write-Error -Message "SumoLogic logging is not configured correctly. You must specify the full HTTP collector URL."
             }
             if ($Service) {
                 $SumoLogConfig.Category = $Service
+            } else {
+                Write-Error -Message "SumoLogic logging is not configured correctly. You must specify the service name to tag log entries with."
             }
             if ($Source) {
                 $SumoLogConfig.Source = $Source
             }
             if ($Metadata) {
                 $SumoLogConfig.Metadata = $Metadata
+            }
+            if ($SumoLogConfig.CollectorURL -ne "" -and $SumoLogConfig.Category -ne "") {
+                $LogConfig.ValidConfig = $true
             }
         }
     }
