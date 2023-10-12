@@ -16,6 +16,10 @@ function Write-LogWarn() {
         [Parameter(Mandatory=$true)]
         [string]$Message
     )
+    if ($LogConfig.ValidConfig -eq $false) {
+        Write-LogError -Message "Log configuration has not been set. Please call Set-Log before calling this function."
+        return
+    }
     switch ($LogConfig.LogType) {
         "File" {
             Write-FileLog -Level "WARN" -Message $Message
