@@ -11,27 +11,27 @@ function Write-ScreenLog() {
     switch ($Level) {
         "DEBUG" {
             if ($LogConfig.DLevel -eq "DEBUG") {
-                Write-Host $logline -ForegroundColor Gray
+                Write-Host $logline -ForegroundColor $ScreenLogConfig.DebugBackgroundColor -BackgroundColor $ScreenLogConfig.DebugBackgroundColor
             }
         }
         "INFO" {
             if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO") {
-                Write-Host $logline
+                Write-Host $logline -ForegroundColor $ScreenLogConfig.InfoForegroundColor -BackgroundColor $ScreenLogConfig.InfoBackgroundColor
             }
         }
         "WARN" {
             if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO" -or $LogConfig.DLevel -eq "WARN") {
-                Write-Host $logline -ForegroundColor Yellow
+                Write-Host $logline -ForegroundColor $ScreenLogConfig.WarnForegroundColor -BackgroundColor $ScreenLogConfig.WarnBackgroundColor
             }
         }
         "ERROR" {
             if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO" -or $LogConfig.DLevel -eq "WARN" -or $LogConfig.DLevel -eq "ERROR") {
-                Write-Host $logline -ForegroundColor Red
+                Write-Host $logline -ForegroundColor $ScreenLogConfig.ErrorForegroundColor -BackgroundColor $ScreenLogConfig.ErrorBackgroundColor
             }
         }
         "CRIT" {
             if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO" -or $LogConfig.DLevel -eq "WARN" -or $LogConfig.DLevel -eq "ERROR" -or $LogConfig.DLevel -eq "CRIT") {
-                Write-Host $logline -ForegroundColor Red -BackgroundColor White
+                Write-Host $logline -ForegroundColor $ScreenLogConfig.CritForegroundColor -BackgroundColor $ScreenLogConfig.CritBackgroundColor
             }
         }
     }
