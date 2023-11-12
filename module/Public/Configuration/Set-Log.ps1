@@ -4,6 +4,7 @@ Specifies the type of logging to use, and the parameters for that logging type.
 
 .DESCRIPTION
 This function is used to specify the type of logging to use, and the parameters for that logging type. It must be called before any logging functions are used.
+The Show-LogConfig function can be used to display the current logging configuration.
 
 .PARAMETER LogType
 The type of logging to use. Must be one of 'File', 'InfluxDB', 'Datadog', 'SumoLogic' or 'Loggly'.
@@ -67,6 +68,9 @@ The minimum log level to display on the console. Must be one of 'DEBUG', 'INFO',
 
 .EXAMPLE
 Set-Log -LogType File -Path "C:\Logs\SanxLog.log" -MaxSize 10000000 -LogLevel INFO -DisplayLevel WARN
+
+.LINK
+Show-LogConfig
 #>
 function Set-Log() {
     param (
@@ -145,6 +149,7 @@ function Set-Log() {
             }
             $LogConfig.LogType = "File"
             Open-FileLog -Path $FileLogConfig.Path
+            $LogConfig.ValidConfig = $true
         }
         "influxdb" {
             $LogConfig.LogType = "InfluxDB"

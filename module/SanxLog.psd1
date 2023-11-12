@@ -1,6 +1,6 @@
 @{
     RootModule = 'SanxLog.psm1'
-    ModuleVersion = '1.0.1'
+    ModuleVersion = '1.0.2'
     CompatiblePSEditions = @('Core')
     GUID = '9ff8bedd-f4be-4a40-b797-8a028acc376c'
     Author = 'Dan Halford'
@@ -19,7 +19,7 @@
     # TypesToProcess = @()
     # FormatsToProcess = @()
     # NestedModules = @()
-    FunctionsToExport = @()
+    FunctionsToExport = '*'
     CmdletsToExport = @()
     VariablesToExport = '*'
     AliasesToExport = @()

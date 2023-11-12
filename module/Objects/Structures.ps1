@@ -16,16 +16,16 @@ if ([System.Console]::BackgroundColor -eq -1) {
     $BackgroundColor = [System.ConsoleColor]::Black
 }
 $ScreenLogConfig = @{
-    [System.ConsoleColor]$DebugForegroundColor = [System.ConsoleColor]::Gray
-    [System.ConsoleColor]$InfoForegroundColor = $ForegroundColor
-    [System.ConsoleColor]$WarnForegroundColor = [System.ConsoleColor]::Yellow
-    [System.ConsoleColor]$ErrorForegroundColor = [System.ConsoleColor]::Red
-    [System.ConsoleColor]$CritForegroundColor = [System.ConsoleColor]::Red
-    [System.ConsoleColor]$DebugBackgroundColor = $BackgroundColor
-    [System.ConsoleColor]$InfoBackgroundColor = $BackgroundColor
-    [System.ConsoleColor]$WarnBackgroundColor = $BackgroundColor
-    [System.ConsoleColor]$ErrorBackgroundColor = $BackgroundColor
-    [System.ConsoleColor]$CritBackgroundColor = $ForegroundColor
+    DebugForegroundColor = [System.ConsoleColor]::Gray
+    InfoForegroundColor = $ForegroundColor
+    WarnForegroundColor = [System.ConsoleColor]::Yellow
+    ErrorForegroundColor = [System.ConsoleColor]::Red
+    CritForegroundColor = [System.ConsoleColor]::Red
+    DebugBackgroundColor = $BackgroundColor
+    InfoBackgroundColor = $BackgroundColor
+    WarnBackgroundColor = $BackgroundColor
+    ErrorBackgroundColor = $BackgroundColor
+    CritBackgroundColor = $ForegroundColor
 }
 New-Variable -Name ScreenLogConfig -Value $ScreenLogConfig -Scope Script -Force
 
