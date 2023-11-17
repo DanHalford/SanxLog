@@ -1,6 +1,6 @@
 @{
     RootModule = 'SanxLog.psm1'
-    ModuleVersion = '1.0.2'
+    ModuleVersion = '1.1.0'
     CompatiblePSEditions = @('Core')
     GUID = '9ff8bedd-f4be-4a40-b797-8a028acc376c'
     Author = 'Dan Halford'
@@ -28,7 +28,7 @@
     # FileList = @()
     PrivateData = @{
         PSData = @{
-            Tags = @('logging','influxdb','datadog','loggly','sumologic')
+            Tags = @('logging','influxdb','datadog','loggly','sumologic','elasticsearch')
             # LicenseUri = ''
             ProjectUri = 'https://github.com/DanHalford/SanxLog'
             # IconUri = ''

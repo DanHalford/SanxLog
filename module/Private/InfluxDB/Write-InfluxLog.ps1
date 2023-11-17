@@ -27,7 +27,7 @@ function Write-InfluxLog() {
             Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body $body | Out-Null
         }
         Catch {
-            Write-Error "Failed to write to InfluxDB: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Error "Failed to write to InfluxDB: $($_.Exception.Message)"
             Write-Information "URL: $url"
             Write-Information "Body: $($body | ConvertTo-Json)"
         }

@@ -68,3 +68,14 @@ $SumoLogConfig = @{
     Metadata = @{}
 }
 New-Variable -Name SumoLogConfig -Value $SumoLogConfig -Scope Script -Force
+
+$ElasticsearchConfig = @{
+    URL = ""
+    Index = ""
+    APIKey = ""
+    Source = ""
+    Service = ""
+    Tags = @()
+    SkipCertificateCheck = $false
+}
+New-Variable -Name ElasticsearchConfig -Value $ElasticsearchConfig -Scope Script -Force

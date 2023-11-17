@@ -37,7 +37,7 @@ function Write-LogglyLog() {
             Invoke-RestMethod -Method POST -Uri $url -Headers $headers -Body ($body | ConvertTo-Json) | Out-Null
         }
         Catch {
-            Write-Error "Failed to write to Loggly: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Error "Failed to write to Loggly: $($_.Exception.Message)"
             Write-Information "URL: $url"
             Write-Information "Body: $($body | ConvertTo-Json)"
         }

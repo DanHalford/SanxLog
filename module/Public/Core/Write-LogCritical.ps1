@@ -36,6 +36,9 @@ function Write-LogCritical() {
         "SumoLogic" {
             Write-SumoLogicLog -Level "CRIT" -Message $Message
         }
+        "Elasticsearch" {
+            Write-ElasticsearchLog -Level "CRIT" -Message $Message
+        }
     }
     Write-ScreenLog -Level "CRIT" -Message $Message
 }

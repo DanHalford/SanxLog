@@ -36,6 +36,9 @@ function Write-LogError() {
         "SumoLogic" {
             Write-SumoLogicLog -Level "ERROR" -Message $Message
         }
+        "Elasticsearch" {
+            Write-ElasticsearchLog -Level "ERROR" -Message $Message
+        }
     }
     Write-ScreenLog -Level "ERROR" -Message $Message
 }

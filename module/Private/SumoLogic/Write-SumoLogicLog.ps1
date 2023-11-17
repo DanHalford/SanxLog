@@ -29,7 +29,7 @@ function Write-SumoLogicLog() {
             Invoke-RestMethod -Method POST -Uri $url -Body ($body | ConvertTo-Json) | Out-Null
         }
         Catch {
-            Write-Error "Failed to write to Sumo Logic: $($_.Exception.Message)" -ForegroundColor Red
+            Write-Error "Failed to write to Sumo Logic: $($_.Exception.Message)"
             Write-Information "URL: $url"
             Write-Information "Headers: $headers"
             Write-Information "Body: $($body | ConvertTo-Json)"

@@ -36,6 +36,9 @@ function Write-LogInfo() {
         "SumoLogic" {
             Write-SumoLogicLog -Level "INFO" -Message $Message
         }
+        "Elasticsearch" {
+            Write-ElasticsearchLog -Level "INFO" -Message $Message
+        }
     }
     Write-ScreenLog -Level "INFO" -Message $Message
 }

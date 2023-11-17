@@ -36,6 +36,9 @@ function Write-LogWarn() {
         "SumoLogic" {
             Write-SumoLogicLog -Level "WARN" -Message $Message
         }
+        "Elasticsearch" {
+            Write-ElasticsearchLog -Level "WARN" -Message $Message
+        }
     }
     Write-ScreenLog -Level "WARN" -Message $Message
 }

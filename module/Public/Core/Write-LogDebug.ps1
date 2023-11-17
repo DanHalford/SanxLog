@@ -37,6 +37,9 @@ function Write-LogDebug() {
         "SumoLogic" {
             Write-SumoLogicLog -Level "DEBUG" -Message $Message
         }
+        "Elasticsearch" {
+            Write-ElasticsearchLog -Level "DEBUG" -Message $Message
+        }
     }
     Write-ScreenLog -Level "DEBUG" -Message $Message
 }
