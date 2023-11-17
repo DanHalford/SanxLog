@@ -1,5 +1,5 @@
 # SanxLog - PowerShell Logging Module
-SanxLog is a PowerShell Core module that enables simple logging to file and to a growing number of time-series databases and log aggregation services; currently InfluxDB, Datadog, Sumo Logic and Loggly. For each option, simultaneous logging to console is also supported.
+SanxLog is a PowerShell Core module that enables simple logging to file and to a growing number of time-series databases and log aggregation services; currently InfluxDB, Datadog, Sumo Logic, Loggly and Elasticsearch. For each option, simultaneous logging to console is also supported.
 
 Once the module has been imported, use the `Set-Log` cmdlet to specify the logging target. At present, you can only log to one location at a time. Each log target also supports, if required, logging to the Console. Once the log type has been specified, to write log entries, simply call:
 `Write-LogCritical`
@@ -52,3 +52,11 @@ Features include:
 * Log messages written as JSON to take advantage of Loggly's excellent filtering and searching functions
 * Each message tagged with **Hostname**, **LogLevel**, **ProcessID** and a configurable **Source** and **Service**
 * Additional metadata tags can be specified as key/value pairs
+
+## Elasticsearch logging
+To ingest logs into Elastic search, you first need to have created an index to receive them.
+Features include:
+* Log messages written as JSON to take advantage of filtering and searching functions
+* Each message tagged with **Hostname**, **LogLevel**, **ProcessID** and a configurable **Source** and **Service**
+* Tags are also supported.
+Use the **Set-Log -SkipCertificateCheck** option to turn off SSL certificate checking if testing against a development instance.
