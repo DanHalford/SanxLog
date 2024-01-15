@@ -46,7 +46,7 @@ Features include:
 * Each message tagged with **Hostname**, **LogLevel**, **ProcessID** and a configurable **Source** and **Service**
 * Tags are also supported.
 
-## Sumo Logic Logic
+## Sumo Logic logging
 To ingest logs into Sumo Logic, you first need to create an collector and then create a *HTTP Logs & Metrics* source. During the source creation process, be sure to select the One Message Per Request option, otherwise the JSON log entries are processed as individual lines. Once it's created, use the source URL as the **ServerURL** parameter.
 Features include:
 * Log messages written as JSON to take advantage of Loggly's excellent filtering and searching functions
