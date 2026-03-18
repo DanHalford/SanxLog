@@ -23,9 +23,18 @@ Specifies that the message is an error message
 .PARAMETER Critical
 Specifies that the message is a critical error message
 
+.PARAMETER ForegroundColor
+The foreground color to use when writing to the screen. Overrides the color set in the module preferences.
+
+.PARAMETER BackgroundColor
+The background color to use when writing to the screen. Overrides the color set in the module preferences.
+
 .EXAMPLE
 Write-Log -Message "This is an informational message"
 Write-Log -Message "This is a warning message" -Warn
+
+.EXAMPLE
+Write-Log -Message "This is an error message" -Error -ForegroundColor White -BackgroundColor Red
 
 .NOTES
 If no message type is specified, the message will be written as an informational message.
@@ -44,25 +53,35 @@ function Write-Log() {
         [Parameter(ParameterSetName="Error", Mandatory=$false, HelpMessage="Specifies that the message is an error message")]
         [switch]$Error,
         [Parameter(ParameterSetName="Critical", Mandatory=$false, HelpMessage="Specifies that the message is a critical error message")]
-        [switch]$Critical
+        [switch]$Critical,
+
+        [Parameter(Mandatory=$false, HelpMessage="The foreground color to use when writing to the screen. Overrides the color set in the module preferences.")]
+        [System.ConsoleColor]$ForegroundColor,
+
+        [Parameter(Mandatory=$false, HelpMessage="The background color to use when writing to the screen. Overrides the color set in the module preferences.")]
+        [System.ConsoleColor]$BackgroundColor
     )
     Begin {
         if ($LogConfig.ValidConfig -eq $false) {
             Write-LogError -Message "Log configuration has not been set. Please call Set-Log before calling this function."
             return
         }
+        $colorParams = @{}
+        if ($PSBoundParameters.ContainsKey('ForegroundColor')) { $colorParams['ForegroundColor'] = $ForegroundColor }
+        if ($PSBoundParameters.ContainsKey('BackgroundColor')) { $colorParams['BackgroundColor'] = $BackgroundColor }
+
         if ($DebugMessage) {
-            Write-LogDebug -Message $Message
+            Write-LogDebug -Message $Message @colorParams
         } elseif ($Info) {
-            Write-LogInfo -Message $Message
+            Write-LogInfo -Message $Message @colorParams
         } elseif ($Warn) {
-            Write-LogWarn -Message $Message
+            Write-LogWarn -Message $Message @colorParams
         } elseif ($Error) {
-            Write-LogError -Message $Message
+            Write-LogError -Message $Message @colorParams
         } elseif ($Critical) {
-            Write-LogCritical -Message $Message
+            Write-LogCritical -Message $Message @colorParams
         } else {
-            Write-LogInfo -Message $Message
+            Write-LogInfo -Message $Message @colorParams
         }
     }
 }

@@ -4,7 +4,7 @@ $Objects = @(Get-ChildItem -Path "$PSScriptRoot\Objects" -include '*.ps1' -recur
 
 foreach ($ps1 in $Objects) {
     try {
-        . $ps1.fullname -Verbose
+        . $ps1.fullname
     } catch {
         Write-Host "Failed to import function $($ps1.fullname): $_" -ForegroundColor Red
     }
@@ -12,7 +12,7 @@ foreach ($ps1 in $Objects) {
 
 foreach ($ps1 in @($Public + $Private)) {
     try {
-        . $ps1.fullname -Verbose
+        . $ps1.fullname
     } catch {
         Write-Host "Failed to import function $($ps1.fullname): $_" -ForegroundColor Red
     }
@@ -20,7 +20,7 @@ foreach ($ps1 in @($Public + $Private)) {
 
 foreach ($ps1 in $Public) {
     try {
-        Export-ModuleMember -Function ($ps1 | Foreach-Object {$_.BaseName}) -Verbose
+        Export-ModuleMember -Function ($ps1 | Foreach-Object {$_.BaseName})
     } catch {
         Write-Host "Failed to export function $($ps1.fullname): $_" -ForegroundColor Red
     }
