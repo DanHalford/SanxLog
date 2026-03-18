@@ -14,7 +14,7 @@ Import-Module SanxLog
 ## Usage
 Once the module has been imported, use the `Set-Log` cmdlet to specify the logging target. At present, you can only log to one location at a time. Each log target also supports, if required, logging to the Console. Once the log type has been specified, to write log entries, simply call:
 ```powershell
-Write-LogCritical -Message "Critical failure"
+Write-LogCritical  -Message "Critical failure"
 Write-LogError     -Message "An error occurred"
 Write-LogWarn      -Message "A warning"
 Write-LogInfo      -Message "Informational message"
@@ -31,6 +31,8 @@ Write-Log -Message "Critical failure"  -Critical
 ```
 If no flag is specified, the message is written at INFO level.
 
+All variants of the Write-Log cmdlet also accept two formatting paramters that apply to the screen output: `-ForegroundColor` and `-BackgroundColor`. Any colours specified overwrite those defined using `Set-ScreenLogConfig`.
+
 ### Logging settings
 All logging parameters are set using the `Set-Log` cmdlet. Specific options to note include:
 * `-LogType` - Mandatory option. Must be one of **File**, **InfluxDB**, **Datadog**, **SumoLogic**, **Loggly** or **Elasticsearch**
@@ -39,7 +41,7 @@ All logging parameters are set using the `Set-Log` cmdlet. Specific options to n
 
 ### Other configuration cmdlets
 * `Set-LogLevel` - Change the log and/or display level without reconfiguring the logging target.
-* `Set-ScreenLogConfig` - Configure console output foreground and background colors per log level.
+* `Set-ScreenLogConfig` - Configure console output foreground and background colours per log level.
 * `Show-LogConfig` - Display the current logging configuration.
 
 ## File logging
