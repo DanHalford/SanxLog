@@ -5,33 +5,49 @@ function Write-ScreenLog() {
         [string]$Level,
 
         [Parameter(Mandatory=$true)]
-        [string]$Message
+        [string]$Message,
+
+        [Parameter(Mandatory=$false)]
+        [System.ConsoleColor]$ForegroundColor,
+
+        [Parameter(Mandatory=$false)]
+        [System.ConsoleColor]$BackgroundColor
     )
     $logline = Get-LogLine -Level $Level -Message $Message
     switch ($Level) {
         "DEBUG" {
             if ($LogConfig.DLevel -eq "DEBUG") {
-                Write-Host $logline -ForegroundColor $ScreenLogConfig.DebugBackgroundColor -BackgroundColor $ScreenLogConfig.DebugBackgroundColor
+                $fg = if ($PSBoundParameters.ContainsKey('ForegroundColor')) { $ForegroundColor } else { $ScreenLogConfig.DebugForegroundColor }
+                $bg = if ($PSBoundParameters.ContainsKey('BackgroundColor')) { $BackgroundColor } else { $ScreenLogConfig.DebugBackgroundColor }
+                Write-Host $logline -ForegroundColor $fg -BackgroundColor $bg
             }
         }
         "INFO" {
             if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO") {
-                Write-Host $logline -ForegroundColor $ScreenLogConfig.InfoForegroundColor -BackgroundColor $ScreenLogConfig.InfoBackgroundColor
+                $fg = if ($PSBoundParameters.ContainsKey('ForegroundColor')) { $ForegroundColor } else { $ScreenLogConfig.InfoForegroundColor }
+                $bg = if ($PSBoundParameters.ContainsKey('BackgroundColor')) { $BackgroundColor } else { $ScreenLogConfig.InfoBackgroundColor }
+                Write-Host $logline -ForegroundColor $fg -BackgroundColor $bg
             }
         }
         "WARN" {
             if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO" -or $LogConfig.DLevel -eq "WARN") {
-                Write-Host $logline -ForegroundColor $ScreenLogConfig.WarnForegroundColor -BackgroundColor $ScreenLogConfig.WarnBackgroundColor
+                $fg = if ($PSBoundParameters.ContainsKey('ForegroundColor')) { $ForegroundColor } else { $ScreenLogConfig.WarnForegroundColor }
+                $bg = if ($PSBoundParameters.ContainsKey('BackgroundColor')) { $BackgroundColor } else { $ScreenLogConfig.WarnBackgroundColor }
+                Write-Host $logline -ForegroundColor $fg -BackgroundColor $bg
             }
         }
         "ERROR" {
             if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO" -or $LogConfig.DLevel -eq "WARN" -or $LogConfig.DLevel -eq "ERROR") {
-                Write-Host $logline -ForegroundColor $ScreenLogConfig.ErrorForegroundColor -BackgroundColor $ScreenLogConfig.ErrorBackgroundColor
+                $fg = if ($PSBoundParameters.ContainsKey('ForegroundColor')) { $ForegroundColor } else { $ScreenLogConfig.ErrorForegroundColor }
+                $bg = if ($PSBoundParameters.ContainsKey('BackgroundColor')) { $BackgroundColor } else { $ScreenLogConfig.ErrorBackgroundColor }
+                Write-Host $logline -ForegroundColor $fg -BackgroundColor $bg
             }
         }
         "CRIT" {
             if ($LogConfig.DLevel -eq "DEBUG" -or $LogConfig.DLevel -eq "INFO" -or $LogConfig.DLevel -eq "WARN" -or $LogConfig.DLevel -eq "ERROR" -or $LogConfig.DLevel -eq "CRIT") {
-                Write-Host $logline -ForegroundColor $ScreenLogConfig.CritForegroundColor -BackgroundColor $ScreenLogConfig.CritBackgroundColor
+                $fg = if ($PSBoundParameters.ContainsKey('ForegroundColor')) { $ForegroundColor } else { $ScreenLogConfig.CritForegroundColor }
+                $bg = if ($PSBoundParameters.ContainsKey('BackgroundColor')) { $BackgroundColor } else { $ScreenLogConfig.CritBackgroundColor }
+                Write-Host $logline -ForegroundColor $fg -BackgroundColor $bg
             }
         }
     }
