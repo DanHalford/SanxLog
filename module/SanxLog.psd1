@@ -1,11 +1,11 @@
 @{
     RootModule = 'SanxLog.psm1'
-    ModuleVersion = '1.1.0'
+    ModuleVersion = '1.2.0'
     CompatiblePSEditions = @('Core')
     GUID = '9ff8bedd-f4be-4a40-b797-8a028acc376c'
     Author = 'Dan Halford'
     # CompanyName = ''
-    Copyright = '(c) Dan Halford, 2023'
+    Copyright = '(c) Dan Halford, 2026'
     Description = 'Logging library - supports file, console and multiple cloud log aggregators'
     PowerShellVersion = '7.2'
     # PowerShellHostName = ''
